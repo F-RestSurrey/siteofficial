@@ -285,7 +285,13 @@
   <h2>Réservez votre table</h2>
 
   <!-- Formulaire avec Formsubmit.co -->
+  <section class="form-section">
+  <h2>Réservez votre table</h2>
+
+  <!-- Formulaire discret avec Formsubmit.co -->
   <form id="reservation-form" action="https://formsubmit.co/samanthagrusson@gmail.com" method="POST">
+    <!-- Redirection vers la même page après envoi -->
+    <input type="hidden" name="_next" value="index.html">
     <div class="form-grid">
       <div class="form-group">
         <label for="nom">Nom complet :</label>
@@ -331,14 +337,13 @@
   </form>
 </section>
 
-<!-- Confirmation modal -->
+<!-- Modal de confirmation discret -->
 <div id="confirmationOverlay" class="confirm-overlay" aria-hidden="true">
   <div class="confirm-box" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
     <h3 id="confirmTitle">Réservation reçue ✔️</h3>
     <p id="confirmMessage">
-      Merci — nous avons bien reçu votre demande.<br>
-      Notre équipe vérifiera la disponibilité et vous contactera très bientôt.<br>
-      Merci de patienter ; pas besoin de renvoyer le formulaire.
+      Merci — votre demande a bien été envoyée.<br>
+      Nous vérifierons la disponibilité et vous contacterons très bientôt.
     </p>
     <button id="confirmClose" class="confirm-close">OK</button>
   </div>
@@ -362,28 +367,28 @@
     overlay.setAttribute('aria-hidden', 'true');
   }
 
-  closeBtn.addEventListener("click", function() {
-    hideConfirmation();
-  });
+  closeBtn.addEventListener("click", hideConfirmation);
 
-  // Soumission du formulaire
+  // Gestion de la soumission du formulaire
   form.addEventListener("submit", function() {
+    // Désactiver le bouton pendant l'envoi
     submitBtn.disabled = true;
     submitBtn.style.opacity = "0.6";
     submitBtn.value = "Envoi en cours...";
 
-    // On laisse Formsubmit.co gérer l'envoi normalement
+    // Afficher la confirmation
     showConfirmation();
     form.reset();
 
-    // Réactiver le bouton après confirmation
+    // Réactiver le bouton après 4 secondes
     setTimeout(() => {
       submitBtn.disabled = false;
       submitBtn.style.opacity = "1";
       submitBtn.value = "Réserver";
-    }, 4000); // même durée que la confirmation
+    }, 4000);
   });
 </script>
+
 
 <!-- === FORMULAIRE (remplacé pour EmailJS) === -->
 
