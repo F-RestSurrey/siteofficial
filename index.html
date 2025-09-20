@@ -281,113 +281,89 @@
 
   <!-- === FORMULAIRE (remplacé pour EmailJS) === -->
 
-<section class="form-section">
-  <h2>Réservez votre table</h2>
+<form id="reservation-form">
+  <div class="form-grid">
+    <!-- tes champs -->
+    <input type="text" name="nom" placeholder="Nom complet" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="tel" name="telephone" placeholder="Téléphone" required>
+    <input type="date" name="date" required>
+    <input type="time" name="heure" required>
+    <select name="personnes" required>
+      <option value="">Sélectionnez</option>
+      <option value="1">1 personne</option>
+      <option value="2">2 personnes</option>
+      <option value="3">3 personnes</option>
+      <option value="4">4 personnes</option>
+      <option value="5+">5 personnes et plus</option>
+    </select>
+  </div>
+  <input type="submit" id="submitBtn" value="Réserver">
+</form>
 
-  <!-- Formulaire avec Formsubmit.co -->
-  <section class="form-section">
-  <h2>Réservez votre table</h2>
-
-  <!-- Formulaire discret avec Formsubmit.co -->
-  <form id="reservation-form" action="https://formsubmit.co/samanthagrusson@gmail.com" method="POST">
-    <!-- Redirection vers la même page après envoi -->
-    <input type="hidden" name="_next" value="index.html">
-    <div class="form-grid">
-      <div class="form-group">
-        <label for="nom">Nom complet :</label>
-        <input type="text" id="nom" name="nom" placeholder="Votre nom complet" required>
-      </div>
-
-      <div class="form-group">
-        <label for="email">Email :</label>
-        <input type="email" id="email" name="email" placeholder="exemple@domaine.com" required>
-      </div>
-
-      <div class="form-group">
-        <label for="telephone">Téléphone :</label>
-        <input type="tel" id="telephone" name="telephone" placeholder="+1 234 567 8900" required>
-      </div>
-
-      <div class="form-group">
-        <label for="date">Date de réservation :</label>
-        <input type="date" id="date" name="date" required>
-      </div>
-
-      <div class="form-group">
-        <label for="heure">Heure :</label>
-        <input type="time" id="heure" name="heure" required>
-      </div>
-
-      <div class="form-group">
-        <label for="personnes">Nombre de personnes :</label>
-        <select id="personnes" name="personnes" required>
-          <option value="">Sélectionnez</option>
-          <option value="1">1 personne</option>
-          <option value="2">2 personnes</option>
-          <option value="3">3 personnes</option>
-          <option value="4">4 personnes</option>
-          <option value="5+">5 personnes et plus</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="form-submit">
-      <input type="submit" id="submitBtn" value="Réserver">
-    </div>
-  </form>
-</section>
-
-<!-- Modal de confirmation discret -->
 <div id="confirmationOverlay" class="confirm-overlay" aria-hidden="true">
-  <div class="confirm-box" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
-    <h3 id="confirmTitle">Réservation reçue ✔️</h3>
-    <p id="confirmMessage">
-      Merci — votre demande a bien été envoyée.<br>
-      Nous vérifierons la disponibilité et vous contacterons très bientôt.
-    </p>
+  <div class="confirm-box">
+    <h3>Réservation reçue ✔️</h3>
+    <p>Merci — votre demande a bien été envoyée.</p>
     <button id="confirmClose" class="confirm-close">OK</button>
   </div>
 </div>
 
 <script>
-  const form = document.getElementById("reservation-form");
-  const overlay = document.getElementById("confirmationOverlay");
-  const closeBtn = document.getElementById("confirmClose");
-  const submitBtn = document.getElementById("submitBtn");
+const form = document.getElementById("reservation-form");
+const submitBtn = document.getElementById("submitBtn");
+const overlay = document.getElementById("confirmationOverlay");
+const closeBtn = document.getElementById("confirmClose");
 
-  // Afficher le modal
-  function showConfirmation() {
-    overlay.style.display = "flex";
-    overlay.setAttribute('aria-hidden', 'false');
-  }
+// Masquer modal
+function hideConfirmation() {
+  overlay.style.display = "none";
+  overlay.setAttribute("aria-hidden", "true");
+}
+closeBtn.addEventListener("click", hideConfirmation);
 
-  // Masquer le modal
-  function hideConfirmation() {
-    overlay.style.display = "none";
-    overlay.setAttribute('aria-hidden', 'true');
-  }
+// Soumission en AJAX pour rester sur la page
+form.addEventListener("submit", function(e){
+  e.preventDefault(); // bloque la redirection
 
-  closeBtn.addEventListener("click", hideConfirmation);
+  submitBtn.disabled = true;
+  submitBtn.style.opacity = "0.6";
+  submitBtn.value = "Envoi en cours...";
 
-  // Gestion de la soumission du formulaire
-  form.addEventListener("submit", function() {
-    // Désactiver le bouton pendant l'envoi
-    submitBtn.disabled = true;
-    submitBtn.style.opacity = "0.6";
-    submitBtn.value = "Envoi en cours...";
+  const data = new FormData(form);
 
-    // Afficher la confirmation
-    showConfirmation();
-    form.reset();
-
-    // Réactiver le bouton après 4 secondes
-    setTimeout(() => {
+  fetch("https://formsubmit.co/ajax/samanthagrusson@gmail.com", {
+    method: "POST",
+    body: data,
+    headers: { 'Accept': 'application/json' }
+  })
+  .then(response => {
+    if(response.ok){
+      overlay.style.display = "flex";
+      overlay.setAttribute("aria-hidden","false");
+      form.reset();
+      setTimeout(()=>{
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = "1";
+        submitBtn.value = "Réserver";
+      }, 4000);
+    } else {
+      alert("Erreur lors de l'envoi, merci de réessayer.");
       submitBtn.disabled = false;
       submitBtn.style.opacity = "1";
       submitBtn.value = "Réserver";
-    }, 4000);
+    }
+  })
+  .catch(err=>{
+    console.error(err);
+    alert("Erreur réseau, merci de réessayer.");
+    submitBtn.disabled = false;
+    submitBtn.style.opacity = "1";
+    submitBtn.value = "Réserver";
   });
+});
 </script>
+
 
 
 <!-- === FORMULAIRE (remplacé pour EmailJS) === -->
