@@ -250,119 +250,101 @@
   <div id="restauration-text">Une équipe soudée</div>
 
   <!-- Logo chef cuisinier défilant -->
-  <div class="chef-logo">
-    <div class="slider">
-      <div class="slides">
-        <img src="https://media.licdn.com/dms/image/v2/D4D22AQFZ5qsoD6vRVg/feedshare-shrink_800/B4DZdp47tbGgAg-/0/1749828222651?e=2147483647&v=beta&t=LUivjNPyJrfKPSLJ4EdvTfbO8o0h7n2wOlM2vJxd8rE" alt="Chef cuisinier 1">
-        <img src="https://img.freepik.com/photos-gratuite/portrait-chef-cuisinier-uniforme_23-2151739084.jpg" alt="Chef cuisinier 2">
-        <img src="https://img.freepik.com/photos-gratuite/chef-cuisinier-professionnel_23-2148676940.jpg" alt="Chef cuisinier 3">
+  <section class="form-section">
+  <h2>Réservez votre table</h2>
+
+  <!-- Formulaire Formsubmit.co -->
+  <form id="reservation-form" action="https://formsubmit.co/samanthagrusson@gmail.com" method="POST">
+    <!-- Redirection vers la même page après envoi -->
+    <input type="hidden" name="_next" value="index.html">
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="nom">Nom complet :</label>
+        <input type="text" id="nom" name="nom" placeholder="Votre nom complet" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email :</label>
+        <input type="email" id="email" name="email" placeholder="exemple@domaine.com" required>
+      </div>
+
+      <div class="form-group">
+        <label for="telephone">Téléphone :</label>
+        <input type="tel" id="telephone" name="telephone" placeholder="+1 234 567 8900" required>
+      </div>
+
+      <div class="form-group">
+        <label for="date">Date de réservation :</label>
+        <input type="date" id="date" name="date" required>
+      </div>
+
+      <div class="form-group">
+        <label for="heure">Heure :</label>
+        <input type="time" id="heure" name="heure" required>
+      </div>
+
+      <div class="form-group">
+        <label for="personnes">Nombre de personnes :</label>
+        <select id="personnes" name="personnes" required>
+          <option value="">Sélectionnez</option>
+          <option value="1">1 personne</option>
+          <option value="2">2 personnes</option>
+          <option value="3">3 personnes</option>
+          <option value="4">4 personnes</option>
+          <option value="5+">5 personnes et plus</option>
+        </select>
       </div>
     </div>
-  </div>
 
-  <style>
-    .chef-logo { width:970px; height:8px; margin:auto; overflow:hidden; border-radius:5px; box-shadow:0 4px 12px rgba(0,0,0,0.2); }
-    .slider { position: relative; width: 100%; height: 100%; }
-    .slides { display:flex; width:300%; animation:slide 9s infinite; }
-    .slides img { width:100%; height:auto; border-radius:15px; }
-    @keyframes slide { 0%{transform:translateX(0%);} 33%{transform:translateX(-100%);} 66%{transform:translateX(-200%);} 100%{transform:translateX(0%);} }
-  </style>
-
-  <section class="gallery">
-    <h2>Nos spécialités</h2>
-    <div class="gallery-logos">
-      <img src="https://cdn-icons-png.flaticon.com/512/1046/1046796.png" alt="Poulet braisé">
-      <img src="https://cdn-icons-png.flaticon.com/512/1046/1046781.png" alt="Pizza">
-      <img src="https://cdn-icons-png.flaticon.com/512/1046/1046769.png" alt="Glace">
-      <img src="https://cdn-icons-png.flaticon.com/512/1046/1046756.png" alt="Café">
-      <img src="https://cdn-icons-png.flaticon.com/512/1046/1046771.png" alt="Gâteau">
+    <div class="form-submit">
+      <input type="submit" id="submitBtn" value="Réserver">
     </div>
-  </section>
+  </form>
+</section>
 
-  <!-- === FORMULAIRE (remplacé pour EmailJS) === -->
-
-<form id="reservation-form">
-  <div class="form-grid">
-    <!-- tes champs -->
-    <input type="text" name="nom" placeholder="Nom complet" required>
-    <input type="email" name="email" placeholder="Email" required>
-    <input type="tel" name="telephone" placeholder="Téléphone" required>
-    <input type="date" name="date" required>
-    <input type="time" name="heure" required>
-    <select name="personnes" required>
-      <option value="">Sélectionnez</option>
-      <option value="1">1 personne</option>
-      <option value="2">2 personnes</option>
-      <option value="3">3 personnes</option>
-      <option value="4">4 personnes</option>
-      <option value="5+">5 personnes et plus</option>
-    </select>
-  </div>
-  <input type="submit" id="submitBtn" value="Réserver">
-</form>
-
+<!-- Modal de confirmation discret -->
 <div id="confirmationOverlay" class="confirm-overlay" aria-hidden="true">
   <div class="confirm-box">
     <h3>Réservation reçue ✔️</h3>
-    <p>Merci — votre demande a bien été envoyée.</p>
+    <p>Merci — votre demande a bien été envoyée.<br>
+       Nous vérifierons la disponibilité et vous contacterons très bientôt.</p>
     <button id="confirmClose" class="confirm-close">OK</button>
   </div>
 </div>
 
 <script>
-const form = document.getElementById("reservation-form");
-const submitBtn = document.getElementById("submitBtn");
-const overlay = document.getElementById("confirmationOverlay");
-const closeBtn = document.getElementById("confirmClose");
+  const form = document.getElementById("reservation-form");
+  const submitBtn = document.getElementById("submitBtn");
+  const overlay = document.getElementById("confirmationOverlay");
+  const closeBtn = document.getElementById("confirmClose");
 
-// Masquer modal
-function hideConfirmation() {
-  overlay.style.display = "none";
-  overlay.setAttribute("aria-hidden", "true");
-}
-closeBtn.addEventListener("click", hideConfirmation);
+  // Masquer le modal
+  function hideConfirmation() {
+    overlay.style.display = "none";
+    overlay.setAttribute("aria-hidden", "true");
+  }
+  closeBtn.addEventListener("click", hideConfirmation);
 
-// Soumission en AJAX pour rester sur la page
-form.addEventListener("submit", function(e){
-  e.preventDefault(); // bloque la redirection
+  // Afficher le modal lors de la soumission
+  form.addEventListener("submit", function() {
+    submitBtn.disabled = true;
+    submitBtn.style.opacity = "0.6";
+    submitBtn.value = "Envoi en cours...";
 
-  submitBtn.disabled = true;
-  submitBtn.style.opacity = "0.6";
-  submitBtn.value = "Envoi en cours...";
+    overlay.style.display = "flex";
+    overlay.setAttribute("aria-hidden","false");
 
-  const data = new FormData(form);
+    form.reset();
 
-  fetch("https://formsubmit.co/ajax/samanthagrusson@gmail.com", {
-    method: "POST",
-    body: data,
-    headers: { 'Accept': 'application/json' }
-  })
-  .then(response => {
-    if(response.ok){
-      overlay.style.display = "flex";
-      overlay.setAttribute("aria-hidden","false");
-      form.reset();
-      setTimeout(()=>{
-        submitBtn.disabled = false;
-        submitBtn.style.opacity = "1";
-        submitBtn.value = "Réserver";
-      }, 4000);
-    } else {
-      alert("Erreur lors de l'envoi, merci de réessayer.");
+    // Réactiver le bouton après 4 secondes
+    setTimeout(() => {
       submitBtn.disabled = false;
       submitBtn.style.opacity = "1";
       submitBtn.value = "Réserver";
-    }
-  })
-  .catch(err=>{
-    console.error(err);
-    alert("Erreur réseau, merci de réessayer.");
-    submitBtn.disabled = false;
-    submitBtn.style.opacity = "1";
-    submitBtn.value = "Réserver";
+    }, 4000);
   });
-});
 </script>
+
 
 
 
