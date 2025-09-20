@@ -282,6 +282,38 @@
 </section>
 
 <!-- === Formulaire Formsubmit.co avec redirection index.html === -->
+<!-- === Slider Chef Cuisinier === -->
+<div class="chef-logo">
+  <div class="slider">
+    <div class="slides">
+      <img src="https://media.licdn.com/dms/image/v2/D4D22AQFZ5qsoD6vRVg/feedshare-shrink_800/B4DZdp47tbGgAg-/0/1749828222651?e=2147483647&v=beta&t=LUivjNPyJrfKPSLJ4EdvTfbO8o0h7n2wOlM2vJxd8rE" alt="Chef cuisinier 1">
+      <img src="https://img.freepik.com/photos-gratuite/portrait-chef-cuisinier-uniforme_23-2151739084.jpg" alt="Chef cuisinier 2">
+      <img src="https://img.freepik.com/photos-gratuite/chef-cuisinier-professionnel_23-2148676940.jpg" alt="Chef cuisinier 3">
+    </div>
+  </div>
+</div>
+
+<style>
+.chef-logo { width:970px; height:250px; margin:auto; overflow:hidden; border-radius:15px; box-shadow:0 4px 12px rgba(0,0,0,0.2); }
+.slider { position: relative; width: 100%; height: 100%; }
+.slides { display:flex; width:300%; animation:slide 9s infinite; }
+.slides img { width:100%; height:auto; border-radius:15px; }
+@keyframes slide { 0%{transform:translateX(0%);} 33%{transform:translateX(-100%);} 66%{transform:translateX(-200%);} 100%{transform:translateX(0%);} }
+</style>
+
+<!-- === Galerie spécialités === -->
+<section class="gallery">
+  <h2>Nos spécialités</h2>
+  <div class="gallery-logos">
+    <img src="https://cdn-icons-png.flaticon.com/512/1046/1046796.png" alt="Poulet braisé">
+    <img src="https://cdn-icons-png.flaticon.com/512/1046/1046781.png" alt="Pizza">
+    <img src="https://cdn-icons-png.flaticon.com/512/1046/1046769.png" alt="Glace">
+    <img src="https://cdn-icons-png.flaticon.com/512/1046/1046756.png" alt="Café">
+    <img src="https://cdn-icons-png.flaticon.com/512/1046/1046771.png" alt="Gâteau">
+  </div>
+</section>
+
+<!-- === Formulaire Formsubmit.co avec redirection index.html === -->
 <section class="form-section">
   <h2>Réservez votre table</h2>
 
@@ -364,7 +396,6 @@ form.addEventListener("submit", function(e){
   },4000);
 });
 </script>
-
 
 
 
